@@ -6,7 +6,7 @@
 - [Outputs and Plots](README.md#outputs-and-plots)
 - [Referencing FiCUS](README.md#referencing-ficus)
 - [Acknowledgments and contributions](README.md#Acknowledgments-and-contributions)
-- [ChangeLog](README.md#changelog)
+- [Change Log](README.md#change-log)
 
 ## Description
 `FiCUS` is a `Python` script to fit the stellar continuum of extragalactic ultraviolet (UV) spectra. In short, it takes observed-frame wavelength, flux density (with errors) and user-defined mask arrays as inputs, and returns an estimation of the galaxy stellar age, metallicity and dust extinction, as well as other secondary Spectral Energy Distribution (SED) parameters. The code was presented in [Saldana-Lopez et al. 2023](https://ui.adsabs.harvard.edu/abs/2022arXiv221101351S/abstract), but the methodology was first described and tested in [Chisholm et al. 2019](https://ui.adsabs.harvard.edu/abs/2019ApJ...882..182C/abstract).
@@ -154,7 +154,7 @@ archivePrefix = {arXiv},
 ## Acknowledgments and contributions
 The existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks to John Chisholm and Calum Hawcroft for guidance and fruitful discussions. Credit to Macarena Garcia del Valle for such an original name. 
 
-## ChangeLog
+## Change Log
     [27.08.2025]: release of a new FiCUS version, including the stripped stars models. 
     [27.11.2024]: 2Zsun entry missing in `Z_dict`, fixing `ficus.py`, line 262; `ficus_script.py`, lines 494, 495, 522.
     [26.11.2024]: replacing typo in the README (Installation section), `git clone` should work now.

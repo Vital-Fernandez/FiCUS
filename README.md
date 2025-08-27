@@ -4,7 +4,7 @@
 - [Input and Configuration files](README.md#input-and-configuration-files)
 - [Running FiCUS](README.md#running-ficus)
 - [Outputs and Plots](README.md#outputs-and-plots)
-- [LogFile](README.md#logfile)
+- [ChangeLog](README.md#changelog)
 
 ## Description
 `FiCUS` is a `Python` script to fit the stellar continuum of extragalactic ultraviolet (UV) spectra. In short, it takes observed-frame wavelength, flux density (with errors) and user-defined mask arrays as inputs, and returns an estimation of the galaxy stellar age, metallicity and dust extinction, as well as other secondary Spectral Energy Distribution (SED) parameters. The code was presented in [Saldana-Lopez et al. 2023](https://ui.adsabs.harvard.edu/abs/2022arXiv221101351S/abstract), but the methodology was first described and tested in [Chisholm et al. 2019](https://ui.adsabs.harvard.edu/abs/2019ApJ...882..182C/abstract).
@@ -137,7 +137,7 @@ An example of `FiCUS`'s plot for the previous CDFS017345 ([Saldana-Lopez et al. 
     [30.01.2023]: the first version of the code is released. 
 
 ## Acknowledments and contributions
-
+This existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks also to John Chisholm and Calum Hawcroft for fruitful discussions. 
 
 [^1]: https://www.stsci.edu/science/starburst99/docs/default.htm
 [^2]: https://bpass.auckland.ac.nz/

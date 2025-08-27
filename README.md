@@ -152,7 +152,7 @@ archivePrefix = {arXiv},
 ```
 
 ## Acknowledgments and contributions
-The existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks to John Chisholm and Calum Hawcroft for guidance and fruitful discussions. Credit to Macarena Garcia del Valle for such an original name. 
+The existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks to John Chisholm for his guidance, and  Calum Hawcroft for fruitful discussions. Credit to Macarena Garcia del Valle for coming-up with such an original name. 
 
 ## Change Log
     [27.08.2025]: release of a new version of FiCUS, including the stripped stars models. 

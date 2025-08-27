@@ -5,6 +5,7 @@
 - [Running FiCUS](README.md#running-ficus)
 - [Outputs and Plots](README.md#outputs-and-plots)
 - [Referencing FiCUS](README.md#referencing-ficus)
+- [Acknowledgements and Contributions](README.md#acknowledgements-and-contributions)
 - [ChangeLog](README.md#changelog)
 
 ## Description
@@ -129,17 +130,6 @@ An example of `FiCUS`'s plot for the previous CDFS017345 ([Saldana-Lopez et al. 
 
 ![plot_example](outputs/CDFS017345.png)
 
-## ChangeLog
-    [27.08.2025]: release of a new FiCUS version, including the stripped stars models. 
-    [27.11.2024]: 2Zsun entry missing in `Z_dict`, fixing `ficus.py`, line 262; `ficus_script.py`, lines 494, 495, 522.
-    [26.11.2024]: replacing typo in the README (Installation section), `git clone` should work now.
-    [28.02.2024]: description of beta1200 and beta1200int parameters was missing in `ficus.py`, lines 423, 424.
-    [07.02.2023]: fixing bug with `att_law` parameter (`ficus.py`, lines 278, 293; `ficus_script.py`, line 276). 
-    [30.01.2023]: the first version of the code is released. 
-
-## Acknowledments and contributions
-This existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks also to John Chisholm and Calum Hawcroft for fruitful discussions. 
-
 ## Referencing `FiCUS`
 ```
 @ARTICLE{2023MNRAS.522.6295S,
@@ -160,6 +150,17 @@ archivePrefix = {arXiv},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 ```
+
+## Acknowledments and contributions
+This existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks to John Chisholm and Calum Hawcroft for guidance and fruitful discussions. Credit to Macarena Garcia del Valle for such original name. 
+
+## ChangeLog
+    [27.08.2025]: release of a new FiCUS version, including the stripped stars models. 
+    [27.11.2024]: 2Zsun entry missing in `Z_dict`, fixing `ficus.py`, line 262; `ficus_script.py`, lines 494, 495, 522.
+    [26.11.2024]: replacing typo in the README (Installation section), `git clone` should work now.
+    [28.02.2024]: description of beta1200 and beta1200int parameters was missing in `ficus.py`, lines 423, 424.
+    [07.02.2023]: fixing bug with `att_law` parameter (`ficus.py`, lines 278, 293; `ficus_script.py`, line 276). 
+    [30.01.2023]: the first version of the code is released. 
 
 [^1]: https://www.stsci.edu/science/starburst99/docs/default.htm
 [^2]: https://bpass.auckland.ac.nz/

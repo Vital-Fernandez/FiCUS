@@ -4,6 +4,7 @@
 - [Input and Configuration files](README.md#input-and-configuration-files)
 - [Running FiCUS](README.md#running-ficus)
 - [Outputs and Plots](README.md#outputs-and-plots)
+- [Referencing FiCUS](README.md#referencing-ficus)
 - [ChangeLog](README.md#changelog)
 
 ## Description

@@ -139,6 +139,27 @@ An example of `FiCUS`'s plot for the previous CDFS017345 ([Saldana-Lopez et al. 
 ## Acknowledments and contributions
 This existence of this code has been possible thanks to the major role of involvement played by Sophia Flury (see [Flury et al. 2025](https://ui.adsabs.harvard.edu/abs/2025ApJ...985..128F/abstract)) and Beryl Hovis-Afflerbach (see [Hovis-Afflerbach et al. 2025](https://ui.adsabs.harvard.edu/abs/2025A%26A...697A.239H/abstract)). Special thanks also to John Chisholm and Calum Hawcroft for fruitful discussions. 
 
+## Referencing `FiCUS`
+```
+@ARTICLE{2023MNRAS.522.6295S,
+       author = {{Saldana-Lopez}, A. and {Schaerer}, D. and {Chisholm}, J. and {Calabr{\`o}}, A. and {Pentericci}, L. and {Cullen}, F. and {Saxena}, A. and {Amor{\'\i}n}, R. and {Carnall}, A.~C. and {Fontanot}, F. and {Fynbo}, J.~P.~U. and {Guaita}, L. and {Hathi}, N.~P. and {Hibon}, P. and {Ji}, Z. and {McLeod}, D.~J. and {Pompei}, E. and {Zamorani}, G.},
+        title = "{The VANDELS survey: the ionizing properties of star-forming galaxies at 3 {\ensuremath{\leq}} z {\ensuremath{\leq}} 5 using deep rest-frame ultraviolet spectroscopy}",
+      journal = {\mnras},
+     keywords = {dust, extinction, galaxies: high-redshift, galaxies: ISM, galaxies: stellar content, dark ages, reionization, first stars, ultraviolet: galaxies, Astrophysics - Astrophysics of Galaxies, Astrophysics - Cosmology and Nongalactic Astrophysics},
+         year = 2023,
+        month = jul,
+       volume = {522},
+       number = {4},
+        pages = {6295-6325},
+          doi = {10.1093/mnras/stad1283},
+archivePrefix = {arXiv},
+       eprint = {2211.01351},
+ primaryClass = {astro-ph.GA},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2023MNRAS.522.6295S},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+}
+```
+
 [^1]: https://www.stsci.edu/science/starburst99/docs/default.htm
 [^2]: https://bpass.auckland.ac.nz/
 [^3]: https://cdsarc.u-strasbg.fr/viz-bin/cat/J/A+A/629/A134

@@ -57,7 +57,7 @@ $$ - $$
 | Input | Description | Options/Format | 
 | --- | --- | --- |
 | `ssp_models` | pick your preferred stellar LIBRARY | `sb99` (single) // `bpass` (binaries) // `sb99stripped` (stripped) |
-| `neb_mode` | add or remove the NEBULAR continuum | `on` // `off` |
+| `neb_mode` | add or remove the NEBULAR continuum contribution | `on` // `off` |
 | `zarray` | specify a set of METALLICITIES | `001,004,008,02,04` (0.05, 0.2, 0.4, 1 and $2 Z_{\odot}$) |
 | `att_law` | choose the DUST attenuation law | `r16` (Reddy et al. 2016) // `smc` (Prevot et al. 1994) |
 | `wave_range` | rest-WAVELENGTH range included the fit | $\lambda_{min}, \lambda_{max}$ (in \AA) |
@@ -96,7 +96,7 @@ After a successful run, the terminal will print the name of the INPUT file follo
  ### inputs ### 
  # spec_name   --> CDFS017345
  # z_spec      --> 3.6052
- # neb_mode   --> yes
+ # neb_mode    --> on
  # ssp_models  --> sb99
  # Zarray      --> ['001', '004', '008', '02']
  # att_law     --> r16
@@ -104,7 +104,7 @@ After a successful run, the terminal will print the name of the INPUT file follo
  # wave_norm   --> [1350. 1370.]
  # r_obs       --> 600.0
  # nsim        --> 100
-# plot_mode   --> yes
+ # plot_mode   --> yes
  
  ### plotting...   
    

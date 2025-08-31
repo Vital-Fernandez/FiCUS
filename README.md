@@ -96,7 +96,7 @@ After a successful run, the terminal will print the name of the INPUT file follo
  ### inputs ### 
  # spec_name   --> CDFS017345
  # z_spec      --> 3.6052
- # neb_mode    --> on
+ # neb_mode    --> off
  # ssp_models  --> sb99
  # Zarray      --> ['0001','0002','0008','0014']
  # att_law     --> r16
@@ -110,7 +110,7 @@ After a successful run, the terminal will print the name of the INPUT file follo
    
  # done!
 ```
-... in which the continuum SED for the CDFS017345 VANDELS spectrum at z = 3.6052 (example taken from [Saldana-Lopez et al. 2023](https://ui.adsabs.harvard.edu/abs/2022arXiv221101351S/abstract)) is modeled using the `Starburst99` stellar library and a set of x4 metallicities (0.05, 0.2, 0.4, $1 Z_{\odot}$), inlcuding contributions from the nebular continuum to the overall flux. Dust attenuates the stellar continuum following the [Reddy et al. 2016](https://ui.adsabs.harvard.edu/abs/2016ApJ...828..107R/abstract) prescription. The wavelength range considered in the fit is $1200-1920$ angstroms, and the output SEDs are normalized to $1350-1370$ angstroms. The VANDELS resolution is $R = 600$, and the number of MC realizations is set to 100. 
+... in which the continuum SED for the CDFS017345 VANDELS spectrum at z = 3.6052 (example taken from [Saldana-Lopez et al. 2023](https://ui.adsabs.harvard.edu/abs/2022arXiv221101351S/abstract)) is modeled using the `Starburst99` stellar library and a set of x4 metallicities (0.05, 0.2, 0.4, $1 Z_{\odot}$), excluding contributions from the nebular continuum. Dust attenuates the stellar continuum following the [Reddy et al. 2016](https://ui.adsabs.harvard.edu/abs/2016ApJ...828..107R/abstract) prescription. The wavelength range considered in the fit is $1200-1920$ angstroms, and the output SEDs are normalized to $1350-1370$ angstroms. The VANDELS resolution is $R = 600$, and the number of MC realizations is set to 100. 
 
 ## Outputs and Plots
 Multiple **OUTPUT** files in `.txt` and `.npy` formats are generated into the [/FiCUS/outputs/](outputs/) directory, sorted and named by date. On the one hand, `.txt` files are easily readable and contain self-explanatory information (see commented lines in files) about the output parameters and SEDs. Concretely: 

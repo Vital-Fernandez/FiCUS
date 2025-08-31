@@ -1,0 +1,84 @@
+# 2025/08/30 13:20:38
+# ---------------------------------------------------------------------------
+# CDFS017345 - stellar continuum (SED-derived parameters) - ficus.py
+# ---------------------------------------------------------------------------
+# 
+# ## inputs ###
+# spec_name   --> CDFS017345
+# z_spec      --> 3.6052
+# ssp_models  --> sb99
+# neb_mode    --> off
+# Zarray      --> ['0001', '0002', '0008', '0014']
+# att_igm     --> r16
+# wave_range  --> [1200. 1920.]
+# wave_norm   --> [1350. 1370.]
+# r_obs       --> 600.0
+# nsim        --> 1
+# plot_mode   --> yes
+# 
+# ## outputs ###
+# ---------------------------------------------------------------------------
+# Column              Units                      Description
+# ---------------------------------------------------------------------------
+# chi2_nu                                        reduced \chi^2 value,
+# Z                  (Zo, solar)                 light-weighted stellar metallicity,
+# Age                (Myr)                       light-weighted stellar age,
+# EBVuv              (mag.)                      dust-attenuation parameter (B-V color excess),
+# f1100              (1e-18 erg/s/cm2/AA)        observed flux density modeled at 1100\AA,
+# f1100int           (1e-18 erg/s/cm2/AA)        intrinsic flux density modeled at 1100\AA,
+# f1500              (1e-18 erg/s/cm2/AA)        observed flux density modeled at 1500\AA,
+# f1500int           (1e-18 erg/s/cm2/AA)        intrinsic flux density modeled at 1500\AA,
+# M1500              (AB)                        derived observed absolute AB magnitude at 1500\AA,
+# M1500int           (AB)                        derived intrinsic absolute AB magnitude at 1500\AA,
+# beta1200                                       observed UV beta-slope modeled around 1200\AA,
+# beta1200int                                    intrinsic UV beta-slope modeled around 1200\AA,
+# beta1550                                       observed UV beta-slope modeled around 1550\AA,
+# beta1550int                                    intrinsic UV beta-slope modeled around 1550\AA,
+# beta2000                                       observed UV beta-slope modeled around 2000\AA,
+# beta2000int                                    intrinsic UV beta-slope modeled around 2000\AA,
+# f500f1500int                                   intrinsic 500-to-1500\AA flux ratio (in F\lambda),
+# f700f1500int                                   intrinsic 700-to-1500\AA flux ratio (in F\lambda),
+# f900f1500                                      observed 900-to-1500\AA flux ratio (in F\lambda),
+# f900f1500int                                   intrinsic 900-to-1500\AA flux ratio (in F\lambda),
+# f900f1100                                      observed 900-to-1100\AA flux ratio (in F\lambda),
+# f900f1100int                                   intrinsic 900-to-1100\AA flux ratio (in F\lambda),
+# f1100f1500                                     observed 1100-to-1500\AA flux ratio (in F\lambda),
+# f1100f1500int                                  intrinsic 1100-to-1500\AA flux ratio (in F\lambda),
+# QH                 (1e+54 1/s)                 intrinsic ionizing photon flux Q(H),
+# IHbeta             (1e-15 erg/s/cm2)           modeled Heta flux,
+# xiion              (log10 Hz/erg)              intrinsic ionizing photon production efficiency,
+# IHbImod            (AA)                        modeled Heta versus LyC flux ratio,
+# fLyCmod            (1e-18 erg/s/cm2/AA)        modeled LyC flux at LyC window,
+# fLyCmodINT         (1e-18 erg/s/cm2/AA)        modeled intrinsic LyC flux at LyC window,
+# 
+param.name param.value param.error
+chi2_nu 0.7886 0.0000
+Z 0.2274 0.0000
+Age 7.4049 0.0000
+EBVuv 0.0902 0.0000
+f1100 0.9224 0.0000
+f1100int 2.3132 0.0000
+f1500 0.5337 0.0000
+f1500int 1.1023 0.0000
+M1500 -21.8240 0.0000
+M1500int -22.6115 0.0000
+beta1200 -1.0395 0.0000
+beta1200int -1.7197 0.0000
+beta1550 -2.2356 0.0000
+beta1550int -2.7188 0.0000
+beta2000 -1.9537 0.0000
+beta2000int -2.3406 0.0000
+f500f1500int 1.4313 0.0000
+f700f1500int 1.3975 0.0000
+f900f1500 0.8297 0.0000
+f900f1500int 1.1958 0.0000
+f900f1100 0.4801 0.0000
+f900f1100int 0.5698 0.0000
+f1100f1500 1.5961 0.0000
+f1100f1500int 1.9347 0.0000
+QH 3.3496 0.0000
+IHbeta 0.0126 0.0000
+xiion 25.5056 0.0000
+IHbImod 9.5964 0.0000
+fLyCmod 0.4428 0.0000
+fLyCmodINT 1.3181 0.0000

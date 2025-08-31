@@ -11,7 +11,7 @@
 ## Description
 `FiCUS` is a `Python` script to fit the stellar continuum of extragalactic ultraviolet (UV) spectra. In short, it takes observed-frame wavelength, flux density (with errors) and user-defined mask arrays as inputs, and returns an estimation of the galaxy stellar age, metallicity and dust extinction, as well as other secondary Spectral Energy Distribution (SED) parameters. The code was presented in [Saldana-Lopez et al. 2023](https://ui.adsabs.harvard.edu/abs/2022arXiv221101351S/abstract), but the methodology was first described and tested in [Chisholm et al. 2019](https://ui.adsabs.harvard.edu/abs/2019ApJ...882..182C/abstract).
 
-The UV stellar continuum modeling ( $F_{\lambda}^{\star}$ ) is achieved by fitting the observed spectra with a linear combination of single-burst stellar population (SSP) theoretical models: `Starburst99`[^1] ([Leitherer et al. 2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..309L/abstract), for single stars), `BPASSv2.2.1`[^2] ([Eldridge et al. 2017](https://ui.adsabs.harvard.edu/abs/2017PASA...34...58E/abstract), for binaries), or `Starburst99+stripped`[^3] ([Gotberg et al. 2019](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A.134G/abstract), for stripped star models). These models assume a initial mass function (IMF) with a high-(low-)mass exponent of 2.3 (1.3), and a high-mass cutoff at $100 M_{\odot}$. The models include five different metallicities (0.05, 0.2, 0.4, 1 and $2 Z_{\odot}$) and ten ages for each metallicity (1, 2, 3, 4, 5, 8, 10, 15, 20 and 40 Myr). A nebular continuum was added to every model by self-consistently processing the original SSPs through `Cloudy v17.0`[^4] ([Ferland et al. 2017](https://ui.adsabs.harvard.edu/abs/2017RMxAA..53..385F/abstract)), assuming similar gas-phase and stellar metallicities, an ionization parameter of $\log(U)=-2.5$, and a volume hydrogen density of $n_H = 100 cm^{-3}$. Adopting a simple geometry where _all_ the light is attenuated by a uniform foreground slab of dust, the modeled stellar continuum results in: 
+The UV stellar continuum modeling ( $F_{\lambda}^{\star}$ ) is achieved by fitting the observed spectra with a linear combination of single-burst stellar population (SSP) theoretical models: `Starburst99`[^1] ([Leitherer et al. 2010](https://ui.adsabs.harvard.edu/abs/2010ApJS..189..309L/abstract), for single stars), `BPASSv2.2.1`[^2] ([Eldridge et al. 2017](https://ui.adsabs.harvard.edu/abs/2017PASA...34...58E/abstract), for binaries), or `Starburst99+stripped`[^3] ([Gotberg et al. 2019](https://ui.adsabs.harvard.edu/abs/2019A%26A...629A.134G/abstract), for stripped star models). These models assume a initial mass function (IMF) with a high-(low-)mass exponent of 2.3 (1.3), and a high-mass cutoff at $100 M_{\odot}$. The models include five different metallicities (0.1, 0.2, 0.5, and 1 $Z_{\odot}$) and ten ages for each metallicity (1, 2, 3, 4, 5, 8, 10, 15, 20 and 40 Myr). A nebular continuum was added to every model by self-consistently processing the original SSPs through `Cloudy v17.0`[^4] ([Ferland et al. 2017](https://ui.adsabs.harvard.edu/abs/2017RMxAA..53..385F/abstract)), assuming similar gas-phase and stellar metallicities, an ionization parameter of $\log(U)=-2.5$, and a volume hydrogen density of $n_H = 100 cm^{-3}$. Adopting a simple geometry where _all_ the light is attenuated by a uniform foreground slab of dust, the modeled stellar continuum results in: 
 
 $$ F_{\lambda}^{\star} = 10^{-0.4 k_{\lambda} E_{B-V}} \sum_{i,j} X_{ij} F_{\lambda}^{ij} $$
 
@@ -98,7 +98,7 @@ After a successful run, the terminal will print the name of the INPUT file follo
  # z_spec      --> 3.6052
  # neb_mode    --> on
  # ssp_models  --> sb99
- # Zarray      --> ['001', '004', '008', '02']
+ # Zarray      --> ['0001','0002','0008','0014']
  # att_law     --> r16
  # wave_range  --> [1200. 1920.]
  # wave_norm   --> [1350. 1370.]
@@ -115,7 +115,7 @@ After a successful run, the terminal will print the name of the INPUT file follo
 ## Outputs and Plots
 Multiple **OUTPUT** files in `.txt` and `.npy` formats are generated into the [/FiCUS/outputs/](outputs/) directory, sorted and named by date. On the one hand, `.txt` files are easily readable and contain self-explanatory information (see commented lines in files) about the output parameters and SEDs. Concretely: 
   - `*_ficus_lightracs.txt`: includes the best-fit light-fractions ( $X_{ij}$ ), with errors, 
-  - `*_ficus_par.txt`: lists the secondary SED parameters, with errors (see comments for actual definitions and units), 
+  - `*_ficus_params.txt`: lists the secondary SED parameters, with errors (see comments for actual definitions and units), 
   - `*_ficus_SPEC.txt`: stores the original spectrum and best-fit stellar continuum, with errors, 
   - `*_ficus_SED.txt`: contains the attenuated and dust-free stellar SEDs, extended to the _whole_ wavelength range of the stellar libraries. 
 
@@ -131,6 +131,7 @@ An example of `FiCUS`'s plot for the previous CDFS017345 ([Saldana-Lopez et al. 
 ![plot_example](outputs/CDFS017345.png)
 
 ## Referencing `FiCUS`
+This code has been made publicly accessible, but its creation and documentation required significant work. Please ensure that any use of this code is properly cited in related publications through the following BibTeX reference: 
 ```
 @ARTICLE{2023MNRAS.522.6295S,
        author = {{Saldana-Lopez}, A. and {Schaerer}, D. and {Chisholm}, J. and {Calabr{\`o}}, A. and {Pentericci}, L. and {Cullen}, F. and {Saxena}, A. and {Amor{\'\i}n}, R. and {Carnall}, A.~C. and {Fontanot}, F. and {Fynbo}, J.~P.~U. and {Guaita}, L. and {Hathi}, N.~P. and {Hibon}, P. and {Ji}, Z. and {McLeod}, D.~J. and {Pompei}, E. and {Zamorani}, G.},

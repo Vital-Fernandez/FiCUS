@@ -252,7 +252,7 @@ def ssp2obs(params, wl_model, models, att_law, fullSED=False):
         by DUST and return the normalized synthetic spectrum: 'spec_model'
     """ 
     light_fracs = [];
-    for n in range(len(params)-2):
+    for n in range(len(params)-1):
         light_fracs.append(params['X%s' %(n)].value);
     light_fracs = np.array(light_fracs);
     ebv = params['ebv'].value;

@@ -155,30 +155,28 @@ archivePrefix = {arXiv},
 Additionally, you can opt for directly citing this repository...
 ```
 @software{Saldana-Lopez_FiCUS,
-author = {Saldana-Lopez, A.},
-month = jan,
-title = {{FiCUS (FItting the stellar Continuum of Uv spectra)}},
-url = {https://github.com/asalda/FiCUS},
-version = {2.0},
-year = {2023}
+      author = {Saldana-Lopez, A.},
+      month = jan,
+      title = {{FiCUS (FItting the stellar Continuum of Uv spectra)}},
+      url = {https://github.com/asalda/FiCUS},
+      version = {2.0},
+      year = {2023}
 }
 ```
 
 ... or refer to the identifier provided by the Astrophysics Source Code Library [ASCL](https://ascl.net/), as below:
 ```
-@MISC{2013ascl.soft05002P,
-author = {{Saldana-Lopez}, A.},
-title = "{FiCUS: FItting the stellar Continuum of Uv Spectra}",
-keywords = {Software},
-howpublished = {Astrophysics Source Code Library, record ascl:2508.019},
-year = 2023,
-month = jan,
-eid = {ascl:2508.019},
-pages = {ascl:2508.019},
+@software{2025ascl.soft08019S,
+       author = {{Saldana-Lopez}, A. and {Schaerer}, D. and {Chisholm}, J. and {Calabr{\`o}}, A. and {Pentericci}, L. and {Cullen}, F. and {Saxena}, A. and {Amor{\'\i}n}, R. and {Carnall}, A.~C. and {Fontanot}, F. and {Fynbo}, J.~P.~U. and {Guaita}, L. and {Hathi}, N.~P. and {Hibon}, P. and {Ji}, Z. and {McLeod}, D.~J. and {Pompei}, E. and {Zamorani}, G.},
+        title = "{FiCUS: FItting the stellar Continuum of Uv Spectra}",
+ howpublished = {Astrophysics Source Code Library, record ascl:2508.019},
+         year = 2025,
+        month = aug,
+          eid = {ascl:2508.019},
 archivePrefix = {ascl},
-eprint = {2508.019},
-adsurl = {https://ui.adsabs.harvard.edu/abs/2025ascl.soft08019S},
-adsnote = {Provided by the SAO/NASA Astrophysics Data System}
+       eprint = {2508.019},
+       adsurl = {https://ui.adsabs.harvard.edu/abs/2025ascl.soft08019S},
+      adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 ```
 

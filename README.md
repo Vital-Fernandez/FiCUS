@@ -154,7 +154,7 @@ archivePrefix = {arXiv},
 ```
 Additionally, you can opt for directly citing this repository...
 ```
-@software{Saldana-Lopez_FiCUS,
+@software{Saldana-Lopez_FiCUS_FItting_the_2023,
       author = {Saldana-Lopez, A.},
       month = jan,
       title = {{FiCUS (FItting the stellar Continuum of Uv spectra)}},
@@ -163,7 +163,6 @@ Additionally, you can opt for directly citing this repository...
       year = {2023}
 }
 ```
-
 ... and/or refering to the identifier provided by the Astrophysics Source Code Library [ASCL]((https://ascl.net/)), as below:
 ```
 @software{2025ascl.soft08019S,

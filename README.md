@@ -152,7 +152,13 @@ archivePrefix = {arXiv},
       adsnote = {Provided by the SAO/NASA Astrophysics Data System}
 }
 ```
-Optionally, 
+Additionally, you can opt for directly citing this repository...
+```
+```
+
+... or refer to the identifier provided by the Astrophysics Source Code Library [ASCL](https://ascl.net/), as below:
+```
+```
 
 ## Licencing
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation: https://www.gnu.org/licenses/.

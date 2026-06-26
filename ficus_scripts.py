@@ -21,7 +21,7 @@ from astropy.cosmology import WMAP7 as cosmo
 from astropy.io import ascii
 from astropy.io import fits
 from astropy.table import Table, Column
-from scipy.integrate import trapz
+from scipy.integrate import trapezoid as trapz
 
 import matplotlib
 import matplotlib.gridspec as gridspec
@@ -132,10 +132,11 @@ def R16full(lam, rv=False):
 # ----------------------------------- #
 
 # ### Read and prepare the DATA
-def load_spec(path, spec_name, wave_range, z_spec, wave_norm):
+def load_spec(spec_name, wave_range, z_spec, wave_norm):
     """ Retrieve 'WAVE', 'FLUX', 'FLUX_ERR' and 'MASK' from file
-    """ 
-    spec_file = fits.open(path+'/inputs/%s.fits' %(str(spec_name)), mmap=True);
+    """
+
+    spec_file = fits.open(spec_name, mmap=True);
     specTable = Table(spec_file[1].data);
     spec_wave = np.array(specTable['WAVE']);    #\AA 
     spec_flux = np.array(specTable['FLUX']);    #F_\lambda units 
@@ -293,8 +294,8 @@ def flam_x(wave,flam,lc,wth):
     """ 
     l1_lim = lc - wth;
     l2_lim = lc + wth;
-    w_int = wave[sci.where((wave>=l1_lim)&(wave<=l2_lim))];
-    f_int = flam[sci.where((wave>=l1_lim)&(wave<=l2_lim))];
+    w_int = wave[np.where((wave>=l1_lim)&(wave<=l2_lim))];
+    f_int = flam[np.where((wave>=l1_lim)&(wave<=l2_lim))];
     flam_x = trapz(f_int,w_int) / (2*wth);
     
     return flam_x
@@ -329,7 +330,7 @@ def beta_x(wave,flam,lc1,lc2):
     flux1 = flam_x(wave,flam,lc1,50.);
     flux2 = flam_x(wave,flam,lc2,50.);
     if ((flux1*flux2) != 0.):
-        beta_x = (sci.log10(flux1)-sci.log10(flux2)) / (sci.log10(lc1)-sci.log10(lc2));
+        beta_x = (np.log10(flux1)-np.log10(flux2)) / (np.log10(lc1)-np.log10(lc2));
     else:
         beta_x = -99.;
     
@@ -344,8 +345,8 @@ def QH_IHb(wave,flam,z):
     eh = 109678.758;
     wedge_h = 1.e8 / eh;
     
-    n_int = n_lam[sci.where(wave<=wedge_h)];
-    w_int = wave[sci.where(wave<=wedge_h)];
+    n_int = n_lam[np.where(wave<=wedge_h)];
+    w_int = wave[np.where(wave<=wedge_h)];
     
     q_h  = trapz(n_int,w_int);
     IHb = 4.76e-13 * q_h;
@@ -456,7 +457,9 @@ def ficus_plot(pdf_file, spec_name, z_spec, wave, flux_norm, err_norm, normID, m
 
     ax1.set_xlabel(r'$\mathrm{Rest-frame~Wavelength,~\lambda_{rest}~(\AA)}$', fontsize = 22, labelpad=12);
     ax1.set_ylabel(r'$\mathrm{Normalized~flux,~F_{\lambda}}$', fontsize = 22, labelpad=12);
-    ax1.set_title(r'$\mathrm{%s~(z = %s) - ~FiCUS~SED~fitting}$' %(spec_name.replace('_', '~'), "{0:.5f}".format(z_spec)), fontsize = 22, pad=18);
+
+    title = f'{spec_name.name.replace("_", "~")} (z = {z_spec:.5f}) - FiCUS SED fitting'
+    ax1.set_title(title, fontsize = 22, pad=18);
     ax1.legend(loc='lower right', fontsize = 15, edgecolor = 'k', framealpha = 1., ncol=3);
     ax1.xaxis.set_major_locator(ticker.MultipleLocator(100.));
     ax1.xaxis.set_minor_locator(ticker.MultipleLocator(25.));

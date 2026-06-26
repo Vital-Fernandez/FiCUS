@@ -107,7 +107,7 @@ from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.ticker import ScalarFormatter
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 #matplotlib.rcParams['text.usetex']=True; #for LaTeX format
-
+from pathlib import Path
 """ lmfit() - see https://lmfit.github.io/lmfit-py/...
 """ 
 import lmfit
@@ -149,8 +149,12 @@ c = 2.99e5;
 # ------------------------------------------ #
 
 """ Command-line input arguments:
-""" 
-spec_name, z_spec = str(sys.argv[1]), float(sys.argv[2]);
+"""
+
+if len(sys.argv) > 1:
+    spec_name, z_spec = str(sys.argv[1]), float(sys.argv[2])
+else:
+    spec_name, z_spec = None, None
 
 """ Read the CONFIGURATION file (.ini) and initialize the input parameters:
 """ 
@@ -161,22 +165,23 @@ ssp_models = config['ficus']['ssp_models'];
 neb_mode = config['ficus']['neb_mode'];
 Zarray = config['ficus']['Zarray'].split(',');
 att_law = config['ficus']['att_law'];
-wave_range = np.float_(config['ficus']['wave_range'].split(','));
-wave_norm = np.float_(config['ficus']['wave_norm'].split(','));
-R_obs = float(config['ficus']['r_obs']);
-nsim = int(np.float_(config['ficus']['nsim']));
+wave_range = np.float64(config['ficus']['wave_range'].split(','));
+wave_norm = np.float64(config['ficus']['wave_norm'].split(','));
+R_obs =  np.float64(config['ficus']['r_obs']);
+nsim =  int(float(config['ficus']['nsim']));
 plot_mode = config['ficus']['plot_mode'];
 
 # ------------------------------- #
 #  Fit and results (FiCUS core):  #
 # ------------------------------- #
 
-def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_spec, wave_norm, R_obs, nsim, plot_mode):
+def ficus(spec_name=spec_name, ssp_models=ssp_models, neb_mode=neb_mode, Zarray=Zarray, att_law=att_law, wave_range=wave_range
+          , z_spec=z_spec, wave_norm=wave_norm, R_obs=R_obs, nsim=nsim, plot_mode=plot_mode):
     
     """ Load normalized SPECTRUM and rest-frame WAVELENGTH arrays (in \AA); 
         apply MASK to spectrum: ficus_scripts > load_spec()
     """ 
-    wave, flux_norm, err_norm, norm_factor, mask_array, normID = load_spec(path, spec_name, wave_range, z_spec, wave_norm);
+    wave, flux_norm, err_norm, norm_factor, mask_array, normID = load_spec(spec_name, wave_range, z_spec, wave_norm);
     
     """ Load MODELS: ficus_scripts > load_ssp_bases()
     """ 
@@ -200,7 +205,7 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
     
     """ Initialize MC-chains:
     """ 
-    params_array = np.zeros((10*len(Zarray)+1+3,nsim));
+    params_array = np.zeros((10 * len(Zarray) + 1 +  3, nsim));
     obs_spec, sed_model, sed_hRmodel, sed_fullmod = [], [], [], [];
     SEDparams = np.zeros((26,nsim));
     
@@ -208,7 +213,8 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
     #  Run MC iterations: lmfit.minimize()  #
     # ------------------------------------- #
     
-    for ns in np.arange(0,nsim,1):
+    for ns in np.arange(0, nsim, 1):
+        print('Iteration ', ns)
         
         """ Apply MASK to FLUX and ERROR arrays and sample randomly...
         """ 
@@ -227,11 +233,12 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
         """ Run fitting algorithm...
         """ 
         params = Parameters();
-        for n in range(10*len(Zarray)):
+        for n in range(10 * len(Zarray)):
             params.add('X%s' %(n), value=0.1, min=0., max=10.);
         params.add('ebv', value=0.1, min=0., max=0.5);
         
-        fit_ = minimize(residuals, params=params, args=(wave, custom_lib, att_law, flux_normSIM, err_normSIM), method='leastsq', nan_policy='omit', scale_covar=True, reduce_fcn='neglogcauchy');
+        fit_ = minimize(residuals, params=params, args=(wave, custom_lib, att_law, flux_normSIM, err_normSIM),
+                        method='leastsq', nan_policy='omit', scale_covar=True, reduce_fcn='neglogcauchy');
         
         # reduced chi-2
         chi2 = fit_.redchi;
@@ -245,7 +252,7 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
         
         Z_set = [];
         for Z in range(len(Zarray)):
-            Z_set.append(np.ones(10)*Z_dict[str(Zarray[Z])]);
+            Z_set.append(np.ones(10) * Z_dict[str(Zarray[Z])]);
         Z_w = np.sum(np.array(Z_set).flatten()*param_array[0:10*len(Zarray)])/np.sum(param_array[0:10*len(Zarray)]);
         
         # luminosity-weighted age (Myr)
@@ -258,10 +265,10 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
         
         if att_law == 'r16':
             kl, klfull = R16(wave), R16full(wl_full);
-        elif atta_law == 'smc':
+        elif att_law == 'smc':
             kl, klfull = SMC(wave), SMC(wl_full);
         else:
-            print('/!\ Warning /!\: %s not a valid extinction law' %att_law)
+            print(f' Warning: {att_law} not a valid extinction law')
         
         hRspec = ssp2obs(fit_.params, wave, custom_lib_orig, att_law);
         sed_model.append([wave, hRspec*10**(0.4*kl*params_array[-1,ns])*norm_factor, hRspec*norm_factor]);
@@ -277,12 +284,14 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
     SEDparams_output = np.c_[SEDparams[:,0], np.nanstd(SEDparams, axis=1)];
     
     """ Save MC results into (.npy) files:
-    """ 
-    np.save(path+'/outputs/%s_ficus_OutputFiles/%s_ficusMC_lightfracs.npy' %(now.strftime('%Y%m%d'), spec_name), np.array(params_array));
-    np.save(path+'/outputs/%s_ficus_OutputFiles/%s_ficusMC_params.npy' %(now.strftime('%Y%m%d'), spec_name), np.array(SEDparams));
-    np.save(path+'/outputs/%s_ficus_OutputFiles/%s_ficusMC_obs.npy' %(now.strftime('%Y%m%d'), spec_name), np.array(obs_spec));
-    np.save(path+'/outputs/%s_ficus_OutputFiles/%s_ficusMC_SPEC.npy' %(now.strftime('%Y%m%d'), spec_name), np.array(sed_model));
-    np.save(path+'/outputs/%s_ficus_OutputFiles/%s_ficusMC_SED.npy' %(now.strftime('%Y%m%d'), spec_name), np.array(sed_fullmod));
+    """
+
+    output_folder = Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/')
+    np.save(output_folder/f'{now.strftime('%Y%m%d')}_ficusMC_lightfracs.npy', np.array(params_array))
+    np.save(output_folder/f'{now.strftime('%Y%m%d')}s_ficusMC_params.npy', np.array(SEDparams))
+    np.save(output_folder/f'{now.strftime('%Y%m%d')}s_ficusMC_obs.npy', np.array(obs_spec))
+    np.save(output_folder/f'{now.strftime('%Y%m%d')}s_ficusMC_SPEC.npy', np.array(sed_model))
+    np.save(output_folder/f'{now.strftime('%Y%m%d')}s_ficusMC_SED.npy', np.array(sed_fullmod))
     
     # ------------------- #
     #  Plotting options:  #
@@ -294,10 +303,12 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
         agesws_def = params_output[3:10*len(Zarray)+3,0]/np.sum(params_output[3:10*len(Zarray)+3,0]);
         
         """ Save PLOT in (.pdf) format: ficus_scripts > ficus_plot()
-        """ 
-        pdf_file = PdfPages(path+'/outputs/%s_ficus_OutputFiles/%s.pdf' %(now.strftime('%Y%m%d'), spec_name));
-        ficus_plot(pdf_file, spec_name, z_spec, wave, custom_data, custom_error, normID, mask_array, att_law, ebv_def, np.array(sed_model)[0,2]/norm_factor, agew_def, Zw_def, agesws_def, age_array, Zarray, Z_set, chi2_def);
-        pdf_file.close();
+        """
+        pdf_file = Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/{Path(spec_name).stem}.pdf')
+        # pdf_file = PdfPages(Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/{Path(spec_name).stem}.pdf'));
+        ficus_plot(pdf_file, spec_name, z_spec, wave, custom_data, custom_error, normID, mask_array, att_law, ebv_def,
+                   np.array(sed_model)[0,2]/norm_factor, agew_def, Zw_def, agesws_def, age_array, Zarray, Z_set, chi2_def);
+        # pdf_file.close();
     
     # ---------------------------------------- #
     #  Save data and results to (.txt) files:  #
@@ -335,16 +346,17 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
  # plot_mode   --> %s  
  #
              ''' %(now.strftime('%Y/%m/%d %H:%M:%S'), spec_name, spec_name, z_spec, ssp_models, neb_mode, Zarray, att_law, wave_range, wave_norm, R_obs, nsim, plot_mode);
-    
-    ascii.write(tab, path+'/outputs/%s_ficus_OutputFiles/%s_ficus_lightfracs.txt' %(now.strftime('%Y%m%d'), spec_name), format='commented_header', names=col_names, comment=tab_comments, overwrite=True);
-    show = ascii.read(path+'/outputs/%s_ficus_OutputFiles/%s_ficus_lightfracs.txt' %(now.strftime('%Y%m%d'), spec_name));
+
+
+    path_file = Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/{spec_name.stem}_ficus_lightfracs.txt')
+    ascii.write(tab, path_file, format='commented_header', names=col_names, comment=tab_comments, overwrite=True)
+    show = ascii.read(path_file);
     
     formats = defaultdict(str);
     formats['param.name'] = '%s';
     for a in col_names[1::]:
         formats[a] = '%5.4f';
-    ascii.write(show, path+'/outputs/%s_ficus_OutputFiles/%s_ficus_lightfracs.txt' %(now.strftime('%Y%m%d'), spec_name), 
-                formats=formats, overwrite=True);
+    ascii.write(show, path_file, formats=formats, overwrite=True);
 
     """ (2) Secondary SED-derived parameters, with errors:
     """ 
@@ -414,66 +426,69 @@ def ficus(path, spec_name, ssp_models, neb_mode, Zarray, att_law, wave_range, z_
  # fLyCmodINT         (1e-18 erg/s/cm2/AA)        modeled intrinsic LyC flux at LyC window, 
  #
              ''' %(now.strftime('%Y/%m/%d %H:%M:%S'), spec_name, spec_name, z_spec, ssp_models, neb_mode, Zarray, att_law, wave_range, wave_norm, R_obs, nsim, plot_mode);
-    
-    ascii.write(tab, path+'/outputs/%s_ficus_OutputFiles/%s_ficus_params.txt' %(now.strftime('%Y%m%d'), spec_name), format='commented_header', names=col_names, comment=tab_comments, overwrite=True);
-    show = ascii.read(path+'/outputs/%s_ficus_OutputFiles/%s_ficus_params.txt' %(now.strftime('%Y%m%d'), spec_name));
+
+    path_file = Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/{spec_name.stem}s_ficus_params.txt')
+    ascii.write(tab, path_file, format='commented_header', names=col_names, comment=tab_comments, overwrite=True);
+    show = ascii.read(path_file);
     
     formats = defaultdict(str);
     formats['param.name'] = '%s';
     for a in col_names[1::]:
         formats[a] = '%5.4f';
-    ascii.write(show, path+'/outputs/%s_ficus_OutputFiles/%s_ficus_params.txt' %(now.strftime('%Y%m%d'), spec_name), 
-                formats=formats, overwrite=True);
+
+    ascii.write(show, path_file, formats=formats, overwrite=True);
     
     """ (3) Observed and best-fit stellar spectra, with errors:
-    """ 
-    np.savetxt(path+'/outputs/%s_ficus_OutputFiles/%s_ficus_SPEC.txt' %(now.strftime('%Y%m%d'), spec_name), np.c_[wave, flux_norm, err_norm, np.array(sed_model)[0,2], np.nanstd(np.array(sed_model)[:,2], axis=0)], 
-fmt='  '.join(['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e']),
-header = '  '.join(['%-15s'] + ['%-15s'] + ['%-15s'] + ['%-5s'] + ['%-15s']) %('# wave(A)', 'Flux.OBS', 'Flux.ERR', 'Flux.SPEC', 'Flux.SPECerr'),
-delimiter='\t', 
-comments= '# %s' %now.strftime('%Y/%m/%d %H:%M:%S') + '\n' + '#\n'
-+    '# ---------------------------------------------------------------------------\n'
-+    '#    %s - stellar continuum spectrum - ficus.py\n' %spec_name
-+    '# ---------------------------------------------------------------------------\n'
-+ '# \n'
-+ '### inputs ### \n'
-+ '# spec_name   --> %s\n' %spec_name
-+ '# z_spec      --> %s\n' %z_spec
-+ '# ssp_models  --> %s\n' %ssp_models
-+ '# neb_mode    --> %s\n' %neb_mode
-+ '# Zarray      --> %s\n' %Zarray
-+ '# att_law     --> %s\n' %att_law
-+ '# wave_range  --> %s\n' %wave_range
-+ '# wave_norm   --> %s\n' %wave_norm
-+ '# r_obs       --> %s\n' %R_obs
-+ '# nsim        --> %s\n' %nsim
-+ '# plot_mode   --> %s\n' %plot_mode
-+ '# \n');
+    """
+    path_file = Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/{spec_name.stem}s_ficus_SPEC.txt')
+    np.savetxt(path_file, np.c_[wave, flux_norm, err_norm, np.array(sed_model)[0,2], np.nanstd(np.array(sed_model)[:,2], axis=0)],
+               fmt='  '.join(['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e']),
+               header = '  '.join(['%-15s'] + ['%-15s'] + ['%-15s'] + ['%-5s'] + ['%-15s']) %('# wave(A)', 'Flux.OBS', 'Flux.ERR', 'Flux.SPEC', 'Flux.SPECerr'),
+               delimiter='\t',
+               comments= '# %s' %now.strftime('%Y/%m/%d %H:%M:%S') + '\n' + '#\n'
+               +    '# ---------------------------------------------------------------------------\n'
+               +    '#    %s - stellar continuum spectrum - ficus.py\n' %spec_name
+               +    '# ---------------------------------------------------------------------------\n'
+               + '# \n'
+               + '### inputs ### \n'
+               + '# spec_name   --> %s\n' %spec_name
+               + '# z_spec      --> %s\n' %z_spec
+               + '# ssp_models  --> %s\n' %ssp_models
+               + '# neb_mode    --> %s\n' %neb_mode
+               + '# Zarray      --> %s\n' %Zarray
+               + '# att_law     --> %s\n' %att_law
+               + '# wave_range  --> %s\n' %wave_range
+               + '# wave_norm   --> %s\n' %wave_norm
+               + '# r_obs       --> %s\n' %R_obs
+               + '# nsim        --> %s\n' %nsim
+               + '# plot_mode   --> %s\n' %plot_mode
+               + '# \n');
 
     """ (4) Full best-fit SED (dust-attenuated and dust-free), with errors:
-    """ 
-    np.savetxt(path+'/outputs/%s_ficus_OutputFiles/%s_ficus_SED.txt' %(now.strftime('%Y%m%d'), spec_name), np.c_[wl_full, np.array(sed_fullmod)[0,2], np.nanstd(np.array(sed_fullmod)[:,2], axis=0), np.array(sed_fullmod)[0,1], np.nanstd(np.array(sed_fullmod)[:,1], axis=0)], 
-fmt='  '.join(['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e']),
-header = '  '.join(['%-15s'] + ['%-15s'] + ['%-15s'] + ['%-15s'] + ['%-15s']) %('# wave(A)', 'Flux.SED', 'Flux.SEDerr', 'Flux.SEDINT', 'Flux.SEDINTerr'),
-delimiter='\t', 
-comments= '# %s' %now.strftime('%Y/%m/%d %H:%M:%S') + '\n' + '#\n'
-+    '# ---------------------------------------------------------------------------\n'
-+    '#    %s - stellar continuum SED - ficus.py\n' %spec_name
-+    '# ---------------------------------------------------------------------------\n'
-+ '# \n'
-+ '### inputs ### \n'
-+ '# spec_name   --> %s\n' %spec_name
-+ '# z_spec      --> %s\n' %z_spec
-+ '# ssp_models  --> %s\n' %ssp_models
-+ '# neb_mode    --> %s\n' %neb_mode
-+ '# Zarray      --> %s\n' %Zarray
-+ '# att_law     --> %s\n' %att_law
-+ '# wave_range  --> %s\n' %wave_range
-+ '# wave_norm   --> %s\n' %wave_norm
-+ '# r_obs       --> %s\n' %R_obs
-+ '# nsim        --> %s\n' %nsim
-+ '# plot_mode   --> %s\n' %plot_mode
-+ '# \n');
+    """
+    path_file = Path(f'{path}/outputs/{now.strftime('%Y%m%d')}_ficus_OutputFiles/{spec_name.stem}s_ficus_SED.txt')
+    np.savetxt(path_file, np.c_[wl_full, np.array(sed_fullmod)[0,2], np.nanstd(np.array(sed_fullmod)[:,2], axis=0), np.array(sed_fullmod)[0,1], np.nanstd(np.array(sed_fullmod)[:,1], axis=0)],
+        fmt='  '.join(['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e'] + ['%+15.5e']),
+        header = '  '.join(['%-15s'] + ['%-15s'] + ['%-15s'] + ['%-15s'] + ['%-15s']) %('# wave(A)', 'Flux.SED', 'Flux.SEDerr', 'Flux.SEDINT', 'Flux.SEDINTerr'),
+        delimiter='\t',
+        comments= '# %s' %now.strftime('%Y/%m/%d %H:%M:%S') + '\n' + '#\n'
+        +    '# ---------------------------------------------------------------------------\n'
+        +    '#    %s - stellar continuum SED - ficus.py\n' %spec_name
+        +    '# ---------------------------------------------------------------------------\n'
+        + '# \n'
+        + '### inputs ### \n'
+        + '# spec_name   --> %s\n' %spec_name
+        + '# z_spec      --> %s\n' %z_spec
+        + '# ssp_models  --> %s\n' %ssp_models
+        + '# neb_mode    --> %s\n' %neb_mode
+        + '# Zarray      --> %s\n' %Zarray
+        + '# att_law     --> %s\n' %att_law
+        + '# wave_range  --> %s\n' %wave_range
+        + '# wave_norm   --> %s\n' %wave_norm
+        + '# r_obs       --> %s\n' %R_obs
+        + '# nsim        --> %s\n' %nsim
+        + '# plot_mode   --> %s\n' %plot_mode
+        + '# \n');
 
     print('   ')
     return print(' # done!')
